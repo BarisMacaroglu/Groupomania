@@ -19,13 +19,20 @@ function App() {
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
-  
+
   const login = () => {
     console.log("Login button clicked");
     Axios.post("http://localhost:3001/login", {
       email: emailReg,
       password: passwordReg,
     })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  };
+
+  const logout = () => {
+    console.log("Log out button clicked");
+    Axios.get("http://localhost:3001/logout")
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
@@ -82,6 +89,10 @@ function App() {
         ></input>
         <button onClick={login}>Log in</button>
         <br /> <br /> <hr />
+      </div>
+      <div>
+        <button onClick={logout}>Log Out</button>
+        <br/><br/><hr/>
       </div>
     </div>
   );

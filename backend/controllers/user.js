@@ -92,3 +92,13 @@ exports.login = (req, res, next) => {
         }
     })
 }
+
+exports.logout = (req, res, next) => {
+    console.log("Logout'a girdi");
+    // on remplace le cookie par un vide
+    new Cookies(req, res).set('snToken', "", {
+      httpOnly: true,
+      maxAge: 1  // 1ms
+    })
+    res.status(200).json({ message: "utilisateur déconnecté" });
+}
