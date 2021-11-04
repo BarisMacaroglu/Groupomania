@@ -9,6 +9,7 @@ router.post("/signup", ctrlUser.signup);
 router.post("/login", ctrlUser.login);
 router.get("/logout", ctrlUser.logout);
 router.get("/users", ctrlUser.getAllUsers);
+router.get("/users/search", ctrlUser.searchUsers);
 router.get("/users/:id", ctrlUser.getOneUser);
 
 

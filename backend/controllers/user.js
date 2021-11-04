@@ -107,6 +107,20 @@ exports.getAllUsers = (req, res, next) => {
     });
 }
 
+exports.searchUsers = (req, res, next) => {
+
+    const searchTerm1 = "%" + req.query.firstName + "%";
+    const searchTerm2 = "%" + req.query.lastName + "%";
+
+    db.query("SELECT id, first_name, last_name, image_url FROM users WHERE first_name OR last_name LIKE ?;", [searchTerm1, searchTerm2], (error, results) => {
+      if (error) {
+        res.status(500).json({ "error": error.sqlMessage });
+      } else {
+        res.status(200).json({ results });
+      }
+    });
+}
+
 exports.getOneUser = (req, res, next) => {
 
     const searchId = req.params.id;
