@@ -11,6 +11,7 @@ router.get("/logout", ctrlUser.logout);
 router.get("/users", ctrlUser.getAllUsers);
 router.get("/users/search", ctrlUser.searchUsers);
 router.get("/users/:id", ctrlUser.getOneUser);
+router.put("/users/:id/description", ctrlUser.changeDescription);
 
 
 module.exports = router;

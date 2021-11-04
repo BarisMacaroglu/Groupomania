@@ -148,3 +148,17 @@ exports.getOneUser = (req, res, next) => {
       }
     });
 }
+
+exports.changeDescription = (req, res, next) => {
+
+    const description = req.body.description;
+    const userId = req.params.id;
+
+    db.query("UPDATE users SET description = ? WHERE id = ?", [description, userId], (error, results) => {
+      if (error) {
+        res.status(500).json({ "error": error.sqlMessage });
+      } else {
+        res.status(201).json({ message: 'Description du profil modifiée' });
+      }
+    });
+}
