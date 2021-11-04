@@ -106,3 +106,31 @@ exports.getAllUsers = (req, res, next) => {
         }
     });
 }
+
+exports.getOneUser = (req, res, next) => {
+
+    const searchId = req.params.id;
+
+    db.query("SELECT * FROM users WHERE id = ?", [searchId], (error, result) => {
+      // SI : erreur SQL
+      if (error) {
+        res.status(500).json({ "error": error.sqlMessage });
+  
+      // SI : Utilisateur non trouvé
+      } else if (result.length === 0) {
+        res.status(401).json({ error: "Utilisateur non trouvé" });
+  
+      // SI : Utilisateur trouvé
+      } else {
+        res.status(200).json({
+          userId: result[0].id,
+          firstName: result[0].first_name,
+          lastName: result[0].last_name,
+          email: result[0].email,
+          imageUrl: result[0].image_url,
+          description: result[0].description,
+          isAdmin: result[0].is_admin
+        });
+      }
+    });
+}
