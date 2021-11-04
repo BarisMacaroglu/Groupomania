@@ -8,6 +8,13 @@ function App() {
   const [emailReg, setEmailReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
+  const [loginStatus, setLoginStatus] = useState("");
+  const [token, setToken] = useState("");
+
+  // const headers = {
+  //   headers : {'Authorization': "Bearer " + localStorage.getItem("tokenApi")}
+  // };
+
   const signup = () => {
     console.log("Signup button clicked");
     Axios.post("http://localhost:3001/signup", {
@@ -26,13 +33,29 @@ function App() {
       email: emailReg,
       password: passwordReg,
     })
-      .then((response) => console.log(response))
+      // .then((response) => console.log(response))
+      .then((response) => {
+        if(response.data.message) {
+            setLoginStatus(response.data.message);
+            setToken(response.data.token);
+        } else {
+            setLoginStatus(response.data[0].name);
+        }
+    })
       .catch((error) => console.log(error));
+      // .catch((error) => setLoginStatus(error));
   };
 
   const logout = () => {
     console.log("Log out button clicked");
     Axios.get("http://localhost:3001/logout")
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  };
+
+  const getAllUsers = () => {
+    console.log("getAllUsers button clicked");
+    Axios.get("http://localhost:3001/users")
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
@@ -88,10 +111,16 @@ function App() {
           }}
         ></input>
         <button onClick={login}>Log in</button>
-        <br /> <br /> <hr />
+        <h3>{loginStatus}</h3>
+        <h4>{token}</h4>
+        <br/><hr/>
       </div>
       <div>
         <button onClick={logout}>Log Out</button>
+        <br/><br/><hr/>
+      </div>
+      <div>
+        <button onClick={getAllUsers}>Affiche tous les utilisateurs</button>
         <br/><br/><hr/>
       </div>
     </div>

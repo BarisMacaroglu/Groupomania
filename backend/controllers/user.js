@@ -59,24 +59,6 @@ exports.login = (req, res, next) => {
                 if(!valid) {
                     return res.status(401).json({ error: 'Mot de passe incorrect !' });
                 }
-                const newToken = jwt.sign(
-                    { userId: result[0].id },
-                    process.env.SECRET_KEY,
-                    { expiresIn: '24h' }
-                );
-
-                // Envoi du token & userId dans un cookie
-                const cookieContent = {
-                    token: newToken,
-                    userId: result[0].id
-                };
-
-                // console.log(cookieContent);
-
-                new Cookies(req, res).set('snToken', cookieContent, {
-                    httpOnly: true,
-                    maxAge: 3600000  // cookie pendant 1 heure
-                });
 
                 res.status(200).json({
                     message: 'User logged in',
@@ -84,8 +66,23 @@ exports.login = (req, res, next) => {
                     firstName: result[0].first_name,
                     lastName: result[0].last_name,
                     imageUrl: result[0].image_url,
-                    isAdmin: result[0].is_admin
+                    isAdmin: result[0].is_admin,
+                    token: jwt.sign(
+                      { userId: result[0].id },
+                      process.env.SECRET_KEY,
+                      { expiresIn: '24h' }
+                    )
                 });
+
+
+                // res.status(200).json({
+                //     message: 'User logged in',
+                //     userId: result[0].id,
+                //     firstName: result[0].first_name,
+                //     lastName: result[0].last_name,
+                //     imageUrl: result[0].image_url,
+                //     isAdmin: result[0].is_admin
+                // });
 
             })
             .catch(error => res.status(500).json({ error })); 
@@ -94,11 +91,18 @@ exports.login = (req, res, next) => {
 }
 
 exports.logout = (req, res, next) => {
-    console.log("Logout'a girdi");
-    // on remplace le cookie par un vide
-    new Cookies(req, res).set('snToken', "", {
-      httpOnly: true,
-      maxAge: 1  // 1ms
-    })
-    res.status(200).json({ message: "utilisateur déconnecté" });
+    console.log("Entered to log out controller");
+}
+
+exports.getAllUsers = (req, res, next) => {
+    console.log("Entered to getAllUsers controller");
+
+    db.query("SELECT id, first_name, last_name, image_url FROM users", (err, result) => {
+        if(err) {
+            console.log(err);
+            res.status(500).json({ "error": error.sqlMessage });
+        } else {
+            res.status(200).json({ result });
+        }
+    });
 }
