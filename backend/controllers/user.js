@@ -210,3 +210,17 @@ exports.changePassword = (req, res, next) => {
       }
     });
 }
+
+exports.changeAdmin = (req, res, next) => {
+
+    const isAdmin = req.body.isAdmin;
+    const userId = req.params.id;
+
+    db.query("UPDATE users SET is_admin = ? WHERE id = ?", [isAdmin, userId], (error, results) => {
+      if (error) {
+        res.status(500).json({ "error": error.sqlMessage });
+      } else {
+        res.status(201).json({ message: "Droits d'administrateur modifiée" });
+      }
+    });
+}

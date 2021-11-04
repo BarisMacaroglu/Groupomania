@@ -14,6 +14,7 @@ router.get("/users/:id", ctrlUser.getOneUser);
 router.put("/users/:id/description", ctrlUser.changeDescription);
 router.put('/users/:id/picture', multer, userCtrl.changeProfilePicture);
 router.put("/users/:id/password", ctrlUser.changePassword);
+router.put("/users/:id/admin", ctrlUser.changeAdmin);
 
 
 module.exports = router;
