@@ -162,3 +162,37 @@ exports.changeDescription = (req, res, next) => {
       }
     });
 }
+
+exports.changePassword = (req, res, next) => {
+    
+    const searchId = req.params.id;
+    
+    db.query("SELECT password FROM users WHERE id = ?", [searchId], (error, results) => {
+      if (error) {
+        res.status(500).json({ "error": error.sqlMessage });
+      } else {
+        const DBHashedPassword = results[0].password;
+        bcrypt.compare(req.body.oldPassword, DBHashedPassword)
+          .then(valid => {
+            if (!valid) {
+              return res.status(401).json({ error: 'Ancien mot de passe incorrect!' });
+            }
+            // L'ancien mot de passe est correct :
+            bcrypt.hash(req.body.newPassword, 10)
+              .then(hash => {
+                const newPassword = hash;
+                
+                db.query("UPDATE users SET password = ? WHERE id = ?", [newPassword, searchId], (error, results) => {
+                  if (error) {
+                    res.status(500).json({ "error": error.sqlMessage });
+                  } else {
+                    res.status(201).json({ message: 'Mot de passe modifié' });
+                  }
+                })
+              })
+              .catch(error => res.status(500).json({ error }));
+          })
+          .catch(error => res.status(500).json({ error }));
+      }
+    });
+}
