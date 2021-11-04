@@ -163,6 +163,20 @@ exports.changeDescription = (req, res, next) => {
     });
 }
 
+exports.changeProfilePicture = (req, res, next) => {
+
+    const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    const userId = req.params.id;
+
+    db.query("UPDATE users SET image_url=? WHERE id = ?", [imageUrl, userId], (error, results) => {
+      if (error) {
+        res.status(500).json({ "error": error.sqlMessage });
+      } else {
+        res.status(201).json({ message: 'Photo de profil modifiée' });
+      }
+    });
+}
+
 exports.changePassword = (req, res, next) => {
     
     const searchId = req.params.id;
