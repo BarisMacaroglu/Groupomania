@@ -224,3 +224,22 @@ exports.changeAdmin = (req, res, next) => {
       }
     });
 }
+
+exports.deleteAccount = (req, res, next) => {
+
+    const userId = req.params.id;
+
+    db.query("DELETE FROM users WHERE id = ?", [userId], (error, results) => {
+      if (error) {
+        res.status(500).json({ "error": error.sqlMessage });
+      } else {
+        // utilisateur supprimé dans la BDD, il faut ensuite supprimer le cookie permettant d'identifier les requêtes.
+        // pour cela : on écrase le cookie existant avec un cookie vide, et qui a en plus une durée de vie de 1 seconde..
+        new Cookies(req, res).set('snToken', false, {
+          httpOnly: true,
+          maxAge: 1000
+        });
+        res.status(201).json({ message: 'Utilisateur supprimé' });
+      }
+    });
+}
