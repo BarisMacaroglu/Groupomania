@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Cookies = require('cookies');
 const database = require("../db");
 const db = database.getDB();
 
@@ -60,6 +59,12 @@ exports.login = (req, res, next) => {
                     return res.status(401).json({ error: 'Mot de passe incorrect !' });
                 }
 
+                const token = jwt.sign(
+                  { userId: result[0].id },
+                  process.env.SECRET_KEY,
+                  { expiresIn: '24h' }
+                );
+
                 res.status(200).json({
                     message: 'User logged in',
                     userId: result[0].id,
@@ -67,23 +72,8 @@ exports.login = (req, res, next) => {
                     lastName: result[0].last_name,
                     imageUrl: result[0].image_url,
                     isAdmin: result[0].is_admin,
-                    token: jwt.sign(
-                      { userId: result[0].id },
-                      process.env.SECRET_KEY,
-                      { expiresIn: '24h' }
-                    )
+                    token: token
                 });
-
-
-                // res.status(200).json({
-                //     message: 'User logged in',
-                //     userId: result[0].id,
-                //     firstName: result[0].first_name,
-                //     lastName: result[0].last_name,
-                //     imageUrl: result[0].image_url,
-                //     isAdmin: result[0].is_admin
-                // });
-
             })
             .catch(error => res.status(500).json({ error })); 
         }
@@ -92,6 +82,7 @@ exports.login = (req, res, next) => {
 
 exports.logout = (req, res, next) => {
     console.log("Entered to log out controller");
+    res.status(200).json({ message: "utilisateur déconnecté" });
 }
 
 exports.getAllUsers = (req, res, next) => {
@@ -233,12 +224,6 @@ exports.deleteAccount = (req, res, next) => {
       if (error) {
         res.status(500).json({ "error": error.sqlMessage });
       } else {
-        // utilisateur supprimé dans la BDD, il faut ensuite supprimer le cookie permettant d'identifier les requêtes.
-        // pour cela : on écrase le cookie existant avec un cookie vide, et qui a en plus une durée de vie de 1 seconde..
-        new Cookies(req, res).set('snToken', false, {
-          httpOnly: true,
-          maxAge: 1000
-        });
         res.status(201).json({ message: 'Utilisateur supprimé' });
       }
     });

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import "./App.css";
+// import { useHistory } from "react-router-dom";
 
 function App() {
   const [firstNameReg, setFirstNameReg] = useState("");
@@ -11,9 +12,11 @@ function App() {
   const [loginStatus, setLoginStatus] = useState("");
   const [token, setToken] = useState("");
 
-  // const headers = {
-  //   headers : {'Authorization': "Bearer " + localStorage.getItem("tokenApi")}
-  // };
+  // let history = useHistory();
+
+  const headers = {
+    headers : {'authorization': "Bearer " + localStorage.getItem("token")}
+  };
 
   const signup = () => {
     console.log("Signup button clicked");
@@ -38,8 +41,10 @@ function App() {
         if(response.data.message) {
             setLoginStatus(response.data.message);
             setToken(response.data.token);
+            localStorage.setItem("token", response.data.token);
+            // history.push("www.google.com");
         } else {
-            setLoginStatus(response.data[0].name);
+            alert(response.data.error);
         }
     })
       .catch((error) => console.log(error));
@@ -48,14 +53,17 @@ function App() {
 
   const logout = () => {
     console.log("Log out button clicked");
-    Axios.get("http://localhost:3001/logout")
-      .then((response) => console.log(response))
+    Axios.get("http://localhost:3001/logout", headers)
+      .then((response) => {
+        console.log(response);
+        localStorage.clear();
+      })
       .catch((error) => console.log(error));
   };
 
   const getAllUsers = () => {
     console.log("getAllUsers button clicked");
-    Axios.get("http://localhost:3001/users")
+    Axios.get("http://localhost:3001/users", headers)
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
