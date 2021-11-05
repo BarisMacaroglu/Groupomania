@@ -85,6 +85,35 @@ exports.logout = (req, res, next) => {
     res.status(200).json({ message: "utilisateur déconnecté" });
 }
 
+exports.getCurrentUser = (req, res, next) => {
+
+  const token = req.headers.authorization.split(' ')[1];
+  const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+  const searchId = decodedToken.userId;
+  // const searchId = cookie.userId;
+
+  db.query("SELECT id, first_name, last_name, image_url, is_admin FROM users WHERE id = ?", [searchId], (error, results) => {
+    // SI : erreur SQL
+    if (error) {
+      res.status(500).json({ "error": error.sqlMessage });
+
+    // SI : Utilisateur non trouvé
+    } else if (results.length === 0) {
+      res.status(401).json({ error: "Utilisateur non trouvé" });
+
+    // SI : Utilisateur trouvé
+    } else {
+      res.status(200).json({
+        userId: results[0].id,
+        firstName: results[0].first_name,
+        lastName: results[0].last_name,
+        imageUrl: results[0].image_url,
+        isAdmin: results[0].is_admin
+      });
+    }
+  });
+}
+
 exports.getAllUsers = (req, res, next) => {
     console.log("Entered to getAllUsers controller");
 
@@ -218,7 +247,12 @@ exports.changeAdmin = (req, res, next) => {
 
 exports.deleteAccount = (req, res, next) => {
 
-    const userId = req.params.id;
+  console.log("entered to ctrl delete account");
+    // const userId = req.params.userId;
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const userId = decodedToken.userId;
+    console.log(userId);
 
     db.query("DELETE FROM users WHERE id = ?", [userId], (error, results) => {
       if (error) {

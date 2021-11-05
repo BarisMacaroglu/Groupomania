@@ -68,6 +68,33 @@ function App() {
       .catch((error) => console.log(error));
   };
 
+  const getCurrentUser = () => {
+    Axios.get("http://localhost:3001/currentuser", headers)
+    .then((response) => {
+      let userId = response.data.userId;
+      console.log(userId);
+      return userId;
+    })
+    .catch((error) => console.log(error));
+  }
+
+  const deleteAccount = () => {
+
+      Axios.get("http://localhost:3001/currentuser", headers)
+      .then((response) => {
+        let userId = response.data.userId;
+        console.log(userId);
+
+        Axios.delete(`http://localhost:3001/users/${userId}`, headers)
+        .then((response) => {
+          console.log(response);
+          localStorage.clear();
+        })
+        .catch((error) => console.log(error));
+      })
+      .catch((error) => console.log(error));
+  }
+
   return (
     <div className="App">
       <div>
@@ -129,6 +156,14 @@ function App() {
       </div>
       <div>
         <button onClick={getAllUsers}>Affiche tous les utilisateurs</button>
+        <br/><br/><hr/>
+      </div>
+      <div>
+        <button onClick={getCurrentUser}>getCurrentUser</button>
+        <br/><br/><hr/>
+      </div>
+      <div>
+        <button onClick={deleteAccount}>Delete the logged user</button>
         <br/><br/><hr/>
       </div>
     </div>

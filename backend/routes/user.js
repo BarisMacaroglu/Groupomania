@@ -8,6 +8,7 @@ const ctrlUser = require("../controllers/user");
 router.post("/signup", ctrlUser.signup);
 router.post("/login", ctrlUser.login);
 router.get("/logout", auth, ctrlUser.logout);
+router.get('/currentuser', auth, ctrlUser.getCurrentUser);
 router.get("/users", auth, ctrlUser.getAllUsers);
 router.get("/users/search", auth, ctrlUser.searchUsers);
 router.get("/users/:id", auth, ctrlUser.getOneUser);
