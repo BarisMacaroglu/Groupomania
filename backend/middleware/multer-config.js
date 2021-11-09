@@ -34,6 +34,7 @@ upload(req, res, (err) => {
       // erreur lors de l'upload (erreur de type de fichier notamment)
       return res.status(500).json({ error: "Une erreur s'est produite" });
     }
+    console.log("Confirmed by multer");
     next();
   });
 }

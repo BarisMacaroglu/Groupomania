@@ -117,12 +117,12 @@ exports.getCurrentUser = (req, res, next) => {
 exports.getAllUsers = (req, res, next) => {
     console.log("Entered to getAllUsers controller");
 
-    db.query("SELECT id, first_name, last_name, image_url FROM users", (err, result) => {
+    db.query("SELECT id, first_name, last_name, image_url FROM users", (err, results) => {
         if(err) {
             console.log(err);
             res.status(500).json({ "error": error.sqlMessage });
         } else {
-            res.status(200).json({ result });
+            res.status(200).json({ results });
         }
     });
 }
@@ -145,25 +145,25 @@ exports.getOneUser = (req, res, next) => {
 
     const searchId = req.params.id;
 
-    db.query("SELECT * FROM users WHERE id = ?", [searchId], (error, result) => {
+    db.query("SELECT * FROM users WHERE id = ?", [searchId], (error, results) => {
       // SI : erreur SQL
       if (error) {
         res.status(500).json({ "error": error.sqlMessage });
   
       // SI : Utilisateur non trouvé
-      } else if (result.length === 0) {
+      } else if (results.length === 0) {
         res.status(401).json({ error: "Utilisateur non trouvé" });
   
       // SI : Utilisateur trouvé
       } else {
         res.status(200).json({
-          userId: result[0].id,
-          firstName: result[0].first_name,
-          lastName: result[0].last_name,
-          email: result[0].email,
-          imageUrl: result[0].image_url,
-          description: result[0].description,
-          isAdmin: result[0].is_admin
+          userId: results[0].id,
+          firstName: results[0].first_name,
+          lastName: results[0].last_name,
+          email: results[0].email,
+          imageUrl: results[0].image_url,
+          description: results[0].description,
+          isAdmin: results[0].is_admin
         });
       }
     });
@@ -248,10 +248,10 @@ exports.changeAdmin = (req, res, next) => {
 exports.deleteAccount = (req, res, next) => {
 
   console.log("entered to ctrl delete account");
-    // const userId = req.params.userId;
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-    const userId = decodedToken.userId;
+    const userId = req.params.id;
+    // const token = req.headers.authorization.split(' ')[1];
+    // const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    // const userId = decodedToken.userId;
     console.log(userId);
 
     db.query("DELETE FROM users WHERE id = ?", [userId], (error, results) => {
