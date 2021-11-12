@@ -62,6 +62,7 @@ function Post() {
         </form>
       </div>
       <div className="all_posts">
+        <h4>Fil d'actualité</h4>
         {listOfPosts.map((value, key) => {
           return (
             <div

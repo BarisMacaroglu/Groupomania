@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Login() {
   const [emailReg, setEmailReg] = useState("");
@@ -8,6 +8,8 @@ export default function Login() {
 
   const [loginStatus, setLoginStatus] = useState("");
   const [token, setToken] = useState("");
+
+  let history = useHistory();
 
   const login = () => {
     console.log("Login button clicked");
@@ -22,7 +24,7 @@ export default function Login() {
           setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("userId", response.data.userId);
-          // history.push("www.google.com");
+          history.push("/posts");
         } else {
           alert(response.data.error);
         }

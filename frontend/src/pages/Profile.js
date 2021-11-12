@@ -22,6 +22,17 @@ function Profile() {
       .catch((error) => console.log(error));
   }, []);
 
+  const logout = () => {
+    console.log("Log out button clicked");
+    Axios.get("http://localhost:3001/logout", headers)
+      .then((response) => {
+        console.log(response);
+        localStorage.clear();
+        history.push("/");
+      })
+      .catch((error) => console.log(error));
+  };
+
   const confirmDelete = () => {
     // window.alert("Etes-vous sure de supprimer votre compte ?");
     Axios.delete(`http://localhost:3001/users/${id}`, headers)
@@ -51,7 +62,8 @@ function Profile() {
           <input type="password"></input>
           <label>Nouveau MDP</label>
           <input type="password"></input>
-          <button>Changer le MDP</button>
+          <button>Changer le MDP</button> <br/> <br/>
+          <button onClick={logout}>Logout</button> <br/> <br/>
         </div>
         <div>
           <button onClick={confirmDelete}>Supprimer le compte</button>
