@@ -6,16 +6,18 @@ const db = database.getDB();
 exports.newPost = (req, res, next) => {
   console.log("create new Post ctrl'a girdi");
 
-    const userId = req.body.userId;
-    const imageurl = req.body.file ? `${req.protocol}://${req.get('host')}/images/${req.body.file.name}` : null;
+    const token = req.headers.authorization.split(' ')[1];  // Récupération du token du header
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY); // Décodage du token
+    const userId = decodedToken.userId;
+    
+    const imageurl = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null;
     const content = req.body.content ? req.body.content : null;
   
-    db.query("INSERT INTO posts (user_id, image_url, content)\
-    VALUES (?, ?, ?)", [userId, imageurl, content], (error, results) => {
+    db.query("INSERT INTO posts (user_id, image_url, content) VALUES (?, ?, ?)", [userId, imageurl, content], (error, results) => {
       if (error) {
-        res.status(500).json({ "error": error.sqlMessage });
+        res.status(500).json({ error });
       } else {
-        res.status(201).json({ message: 'Publication ajoutée' });
+        res.status(201).json({ results });
       }
     });
 }

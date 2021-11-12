@@ -21,6 +21,7 @@ export default function Login() {
           setLoginStatus(response.data.message);
           setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("userId", response.data.userId);
           // history.push("www.google.com");
         } else {
           alert(response.data.error);

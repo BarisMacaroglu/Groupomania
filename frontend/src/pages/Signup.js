@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Axios from "axios";
 
 export default function Signup() {
@@ -7,6 +7,8 @@ export default function Signup() {
   const [lastNameReg, setLastNameReg] = useState("");
   const [emailReg, setEmailReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
+
+  let history = useHistory();
 
   const signup = () => {
     console.log("Signup button clicked");
@@ -16,7 +18,11 @@ export default function Signup() {
       email: emailReg,
       password: passwordReg,
     })
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response);
+        // A welcome and 'thank you for joining' message ?
+        history.push("/posts");
+      })
       .catch((error) => console.log(error));
   };
 
