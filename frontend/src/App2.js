@@ -3,13 +3,11 @@ import Home from './pages/Home';
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import { BrowserRouter, Switch, Route, Link, Redirect } from "react-router-dom";
-// import Post from "./pages/Post";
 import "./App.css";
-// import Post2 from "./pages/Post2";
+import Post from "./pages/Post";
 import OnePost from "./pages/OnePost";
 import User from "./pages/User";
 import Profile from "./pages/Profile";
-import Post3 from "./pages/Post3";
 import AuthApi from "./AuthApi";
 
 export default function App2() {
@@ -48,7 +46,7 @@ export default function App2() {
             <Route exact path="/" component ={Home} />
             <Route exact path="/signup" component ={Signup} />
             <Route exact path="/login" component ={Login} />
-            <Route exact path="/posts"  component ={Post3} />
+            <Route exact path="/posts"  component ={Post} />
             <Route exact path="/posts/:id"  component ={OnePost} />
             <Route exact path="/users"  component={User}/>
             <Route exact path="/users/:id"  component={Profile}/>
