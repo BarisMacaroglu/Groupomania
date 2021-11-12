@@ -1,21 +1,12 @@
-import React, {useState, useEffect, useContext} from "react";
-import Home from './pages/Home';
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import { BrowserRouter, Switch, Route, Link, Redirect } from "react-router-dom";
-import "./App.css";
-import Post from "./pages/Post";
-import OnePost from "./pages/OnePost";
-import User from "./pages/User";
-import Profile from "./pages/Profile";
+import React, {useState, useEffect} from "react";
+import { BrowserRouter, Link } from "react-router-dom";
 import AuthApi from "./AuthApi";
+import Routes from "./Routes";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from "react-bootstrap/Nav"; 
-import Routes from "./Routes";
+import "./App.css";
 
 export default function App2() {
-
-  const Auth = useContext(AuthApi);
 
   const [auth, setAuth] = useState(false);
 
@@ -40,6 +31,7 @@ export default function App2() {
       navLink = <>
               <Nav className="mr-auto">
                   <Link to="/posts" className="nav-link">Tous les posts</Link>
+                  <Link to="/users" className="nav-link">Tous les utilisateurs</Link>
                   <Link to={"/users/" + userId } className="nav-link">Mon compte</Link>
               </Nav>
             </>
