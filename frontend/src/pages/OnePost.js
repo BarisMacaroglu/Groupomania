@@ -26,7 +26,7 @@ function OnePost() {
 
       <div className="post">
         post id : {onePostObject.id}, <br />
-        <img src={onePostObject.image_url} alt=""/> <br />
+        <img className="post_image" src={onePostObject.image_url} alt=""/> <br />
         publication_date : {onePostObject.publication_date} <br />
         content : {onePostObject.content} <br />
       </div>

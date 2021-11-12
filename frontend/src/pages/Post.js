@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
 
-function Post3() {
+function Post() {
   const headers = {
     headers: { authorization: "Bearer " + localStorage.getItem("token") },
   };
@@ -57,7 +57,7 @@ function Post3() {
             onChange={(e) => setContent(e.target.value)}
           ></input>
           <button type="submit" className="btn">
-            Add
+            Partager
           </button>
         </form>
       </div>
@@ -81,4 +81,4 @@ function Post3() {
   );
 }
 
-export default Post3;
+export default Post;
