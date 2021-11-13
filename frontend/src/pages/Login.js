@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+import AuthApi from "../AuthApi";
 
 export default function Login() {
   const [emailReg, setEmailReg] = useState("");
@@ -11,7 +12,7 @@ export default function Login() {
 
   let history = useHistory();
 
-  const login = () => {
+  const login = (setAuth) => {
     console.log("Login button clicked");
     Axios.post("http://localhost:3001/login", {
       email: emailReg,
@@ -25,8 +26,14 @@ export default function Login() {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("userId", response.data.userId);
           history.push("/posts");
+          console.log('OKAY CONNECTED');
+          setAuth({
+            username: response.data.lastName,
+            id: response.data.userId
+          });
         } else {
           alert(response.data.error);
+          setAuth(null);
         }
       })
       .catch((error) => console.log(error));
@@ -34,32 +41,36 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h3>Se Connecter</h3>
-      <div>
-        <input
-          type="email"
-          placeholder="Adresse mail"
-          onChange={(e) => {
-            setEmailReg(e.target.value);
-          }}
-        ></input>
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          onChange={(e) => {
-            setPasswordReg(e.target.value);
-          }}
-        ></input>
-        <button onClick={login}>Log in</button>
-        <h3>{loginStatus}</h3>
-        <h4>{token}</h4>
-        <br/>
-        <br/>
-        <div>Vous n'avez pas de compte ? <Link to="/signup">Inscrivez-vous ici</Link> </div>
-        <br/>
-        <hr />
-      </div>
-    </div>
+    <AuthApi.Consumer>
+      {({ auth, setAuth }) => {
+        return (<div>
+          <h3>Se Connecter</h3>
+          <div>
+            <input
+              type="email"
+              placeholder="Adresse mail"
+              onChange={(e) => {
+                setEmailReg(e.target.value);
+              }}
+            ></input>
+            <input
+              type="password"
+              placeholder="Mot de passe"
+              onChange={(e) => {
+                setPasswordReg(e.target.value);
+              }}
+            ></input>
+            <button onClick={() => login(setAuth)}>Log in</button>
+            <h3>{loginStatus}</h3>
+            <h4>{token}</h4>
+            <br/>
+            <br/>
+            <div>Vous n'avez pas de compte ? <Link to="/signup">Inscrivez-vous ici</Link> </div>
+            <br/>
+            <hr />
+          </div>
+        </div>);
+      }}
+    </AuthApi.Consumer>  
   );
 }

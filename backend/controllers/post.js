@@ -53,7 +53,7 @@ exports.getOnePost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
 
-  const postId = parseInt(req.params.id, 10);
+  const postId = req.params.id;
 
   db.query("DELETE FROM posts WHERE id = ?", [postId], (error, results) => {
     if (error) {

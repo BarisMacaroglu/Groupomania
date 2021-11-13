@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { BrowserRouter, Link } from "react-router-dom";
 import AuthApi from "./AuthApi";
 import Routes from "./Routes";
@@ -8,7 +8,7 @@ import "./App.css";
 
 export default function App2() {
 
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(null);
 
   const readLs = () => {
     const token = localStorage.getItem("token");
@@ -24,7 +24,7 @@ export default function App2() {
   }, [auth]);
 
   let navLink;
-  if (auth === true) {
+  if (auth) {
 
       const userId = localStorage.getItem("userId");
 
@@ -42,9 +42,11 @@ export default function App2() {
           </Nav>
   }
 
+  console.log(auth);
+
   return (
     <React.Fragment>
-      <AuthApi.Provider value={{auth, setAuth}}>
+      <AuthApi.Provider value={{ auth, setAuth}}>
         <BrowserRouter>
           <Navbar sticky="top" bg="dark" variant="dark">
               <Link to="/" className="logo"></Link>
