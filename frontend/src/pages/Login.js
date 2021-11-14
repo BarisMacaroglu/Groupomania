@@ -17,25 +17,26 @@ export default function Login() {
       email: emailReg,
       password: passwordReg,
     })
-      // .then((response) => console.log(response))
       .then((response) => {
         if (response.data.message) {
           setLoginStatus(response.data.message);
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("userId", response.data.userId);
-          history.push("/posts");
           console.log('OKAY CONNECTED');
           setAuth({
-            username: response.data.lastName,
-            id: response.data.userId
+            userId: response.data.userId,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            imageUrl: response.data.imageUrl,
+            isAdmin: response.data.isAdmin,
           });
+          history.push("/posts");
         } else {
           alert(response.data.error);
           setAuth(null);
         }
       })
       .catch((error) => console.log(error));
-    // .catch((error) => setLoginStatus(error));
   };
 
   return (
