@@ -8,7 +8,6 @@ export default function Login() {
   const [passwordReg, setPasswordReg] = useState("");
 
   const [loginStatus, setLoginStatus] = useState("");
-  const [token, setToken] = useState("");
 
   let history = useHistory();
 
@@ -22,7 +21,6 @@ export default function Login() {
       .then((response) => {
         if (response.data.message) {
           setLoginStatus(response.data.message);
-          setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("userId", response.data.userId);
           history.push("/posts");
@@ -43,7 +41,8 @@ export default function Login() {
   return (
     <AuthApi.Consumer>
       {({ auth, setAuth }) => {
-        return (<div>
+        return (
+        <div className="login__container">
           <h3>Se Connecter</h3>
           <div>
             <input
@@ -62,7 +61,6 @@ export default function Login() {
             ></input>
             <button onClick={() => login(setAuth)}>Log in</button>
             <h3>{loginStatus}</h3>
-            <h4>{token}</h4>
             <br/>
             <br/>
             <div>Vous n'avez pas de compte ? <Link to="/signup">Inscrivez-vous ici</Link> </div>

@@ -22,11 +22,11 @@ function User() {
 
   return (
     <div className="users_container">
-        <h1>Tous les utilisateurs du site :</h1>
+        <h4>Tous les utilisateurs du site :</h4>
         <div className="all_users">
             {listOfUsers.map((value, key) => {
                 return (
-                    <div className="user" onClick={() => {history.push(`/users/${value.id}`)}}>
+                    <div className="user" key={key} onClick={() => {history.push(`/users/${value.id}`)}}>
                         <p>First name : {value.first_name} </p>
                         <p>Last name : {value.last_name} </p>
                         <img alt="" src={value.image_url}/>

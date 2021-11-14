@@ -5,6 +5,7 @@ import Routes from "./Routes";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from "react-bootstrap/Nav"; 
 import "./App.css";
+import logo from "./logos/icon-left-font-monochrome-white.svg"
 
 export default function App2() {
 
@@ -49,7 +50,7 @@ export default function App2() {
       <AuthApi.Provider value={{ auth, setAuth}}>
         <BrowserRouter>
           <Navbar sticky="top" bg="dark" variant="dark">
-              <Link to="/" className="logo"></Link>
+              <Link to="/" className="logo-link"> <img className="logo-img" src={logo} alt="logo groupomania"/> </Link>
               {navLink}
           </Navbar>
           <Routes />

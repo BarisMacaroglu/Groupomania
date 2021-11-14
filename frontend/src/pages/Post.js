@@ -67,6 +67,7 @@ function Post() {
           return (
             <div
               className="post"
+              key={key}
               onClick={() => {
                 history.push(`/posts/${value.id}`);
               }}
