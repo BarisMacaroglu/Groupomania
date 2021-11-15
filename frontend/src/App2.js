@@ -9,20 +9,40 @@ import logo from "./logos/icon-left-font-monochrome-white.svg"
 
 export default function App2() {
 
+  // const [auth, setAuth] = useState(null);
+
+  // const readLs = () => {
+  //   const token = localStorage.getItem("token");
+  //   const userId = localStorage.getItem("userId");
+  //   if(token && userId) {
+  //     setAuth(true);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   readLs();
+  //   console.log(auth);
+  // }, [auth]);
+
   const [auth, setAuth] = useState(null);
+  // const { auth, setAuth } = useContext(AuthApi); // AuthApi dosyasina yazmis oldugumuz false'i donduruyor
 
   const readLs = () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
+    const isAdmin = localStorage.getItem("isAdmin");
     if(token && userId) {
-      setAuth(true);
+      setAuth({
+        userId: userId,
+        isAdmin: isAdmin,
+      });
     }
   }
 
   useEffect(() => {
     readLs();
     console.log(auth);
-  }, [auth]);
+  }, []);
 
   let navLink;
   if (auth) {
@@ -49,7 +69,7 @@ export default function App2() {
     <React.Fragment>
       <AuthApi.Provider value={{ auth, setAuth}}>
         <BrowserRouter>
-          <Navbar sticky="top" bg="dark" variant="dark">
+          <Navbar sticky="top" bg="" variant="">
               <Link to="/" className="logo-link"> <img className="logo-img" src={logo} alt="logo groupomania"/> </Link>
               {navLink}
           </Navbar>

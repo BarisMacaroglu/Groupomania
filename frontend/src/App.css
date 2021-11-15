@@ -37,10 +37,15 @@
   }
 }
 
+.home__page {
+  margin: 20px auto;
+  max-width: 500px;
+}
+
 .logo-img {
   width: 100%;
-  max-width: 500px;
-  max-height: 100px;
+  /* max-width: 500px; */
+  /* max-height: 100px; */
   color: red;
   background-color: red;
 }

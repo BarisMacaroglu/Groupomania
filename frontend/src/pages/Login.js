@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import AuthApi from "../AuthApi";
@@ -8,10 +8,11 @@ export default function Login() {
   const [passwordReg, setPasswordReg] = useState("");
 
   const [loginStatus, setLoginStatus] = useState("");
+  const { setAuth } = useContext(AuthApi);
 
   let history = useHistory();
 
-  const login = (setAuth) => {
+  const login = () => {
     console.log("Login button clicked");
     Axios.post("http://localhost:3001/login", {
       email: emailReg,
@@ -22,6 +23,7 @@ export default function Login() {
           setLoginStatus(response.data.message);
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("userId", response.data.userId);
+          localStorage.setItem("isAdmin", response.data.isAdmin);
           console.log('OKAY CONNECTED');
           setAuth({
             userId: response.data.userId,
@@ -39,12 +41,12 @@ export default function Login() {
       .catch((error) => console.log(error));
   };
 
-  return (
-    <AuthApi.Consumer>
-      {({ auth, setAuth }) => {
+  // return (
+  //   <AuthApi.Consumer>
+  //     {({ auth, setAuth }) => {
         return (
         <div className="login__container">
-          <h3>Se Connecter</h3>
+          <h3 className="login__title">Se Connecter</h3>
           <div>
             <input
               type="email"
@@ -60,7 +62,8 @@ export default function Login() {
                 setPasswordReg(e.target.value);
               }}
             ></input>
-            <button onClick={() => login(setAuth)}>Log in</button>
+            {/* <button onClick={() => login(setAuth)}>Log in</button> */}
+            <button onClick={login}>Log innnnn</button>
             <h3>{loginStatus}</h3>
             <br/>
             <br/>
@@ -69,7 +72,7 @@ export default function Login() {
             <hr />
           </div>
         </div>);
-      }}
-    </AuthApi.Consumer>  
-  );
+  //     }}
+  //   </AuthApi.Consumer>  
+  // );
 }

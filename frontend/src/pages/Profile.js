@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,9 @@ function Profile() {
 
   let { id } = useParams();
   const [oneUserObject, setOneUserObject] = useState({});
+  const { auth } = useContext(AuthApi);
+  console.log(auth);
+
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/users/${id}`, headers)
@@ -40,10 +43,15 @@ function Profile() {
     Axios.delete(`http://localhost:3001/users/${id}`, headers)
       .then((response) => {
         console.log(response);
+        localStorage.clear();
         history.push("/");
       })
       .catch((error) => console.log(error));
   };
+
+  const deleteAccount = () => {
+
+  }
 
   return (
     <AuthApi.Consumer>
@@ -76,6 +84,14 @@ function Profile() {
               <div>
                 <button onClick={confirmDelete}>Supprimer le compte</button>
               </div>
+            </div>
+            <div className="footer">
+              {oneUserObject.lastName}
+              {auth.userId === oneUserObject.userId && (
+                <button onClick={() => {
+                  deleteAccount(oneUserObject.userId);
+                }}>{" "}Sil le compte</button>
+              )}
             </div>
           </div>
         );

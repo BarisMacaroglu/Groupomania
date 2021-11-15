@@ -9,7 +9,6 @@ import Post from "./pages/Post";
 import OnePost from "./pages/OnePost";
 import User from "./pages/User";
 import Profile from "./pages/Profile";
-import Signup2 from './pages/Signup2';
 import Signup3 from './pages/Signup3';
 
 function Routes() {
