@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Axios from "axios";
+import AuthApi from "../AuthApi";
 
 function Signup3() {
   const [firstNameReg, setFirstNameReg] = useState("");
   const [lastNameReg, setLastNameReg] = useState("");
   const [emailReg, setEmailReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
+  const { setAuth } = useContext(AuthApi);
 
   let history = useHistory();
 
@@ -20,7 +22,30 @@ function Signup3() {
       .then((response) => {
         console.log(response);
         // A welcome and 'thank you for joining' message ?
-        // history.push("/posts");
+        Axios.post("http://localhost:3001/login", {
+          email: emailReg,
+          password: passwordReg,
+        })
+          .then((response) => {
+            if (response.data.message) {
+              localStorage.setItem("token", response.data.token);
+              localStorage.setItem("userId", response.data.userId);
+              localStorage.setItem("isAdmin", response.data.isAdmin);
+              console.log("OKAY CONNECTED");
+              setAuth({
+                userId: response.data.userId,
+                firstName: response.data.firstName,
+                lastName: response.data.lastName,
+                imageUrl: response.data.imageUrl,
+                isAdmin: response.data.isAdmin,
+              });
+              history.push("/posts");
+            } else {
+              alert(response.data.error);
+              setAuth(null);
+            }
+          })
+          .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
   };
@@ -33,32 +58,64 @@ function Signup3() {
         <div className="form">
           <div className="form-control">
             <label htmlFor="firstName">Prénom *</label>
-            <input type="text" id="firstName" name="firstName" placeholder="Votre prénom" onChange={(e) => {
-            setFirstNameReg(e.target.value);
-          }} required />
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="Votre prénom"
+              onChange={(e) => {
+                setFirstNameReg(e.target.value);
+              }}
+              required
+            />
           </div>
           <div className="form-control">
             <label htmlFor="lastName">Nom *</label>
-            <input type="text" id="lastName" name="lastName" placeholder="Votre nom" onChange={(e) => {
-            setLastNameReg(e.target.value);
-          }} required />
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="Votre nom"
+              onChange={(e) => {
+                setLastNameReg(e.target.value);
+              }}
+              required
+            />
           </div>
           <div className="form-control">
             <label htmlFor="email">E-mail *</label>
-            <input type="email" id="email" name="email" placeholder="Votre adresse e-mail" onChange={(e) => {
-            setEmailReg(e.target.value);
-          }} required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Votre adresse e-mail"
+              onChange={(e) => {
+                setEmailReg(e.target.value);
+              }}
+              required
+            />
           </div>
           <div className="form-control">
             <label htmlFor="password">Mot de passe *</label>
-            <input type="password" id="password" name="password" placeholder="Votre mot de passe" onChange={(e) => {
-            setPasswordReg(e.target.value);
-          }} required />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Votre mot de passe"
+              onChange={(e) => {
+                setPasswordReg(e.target.value);
+              }}
+              required
+            />
           </div>
-          <button className="auth__btn" onClick={signup}>S'inscrire</button>
+          <button className="auth__btn" onClick={signup}>
+            S'inscrire
+          </button>
           <div className="form__error"></div>
         </div>
-        <h5>Vous avez déjà un compte ? <Link to="/login">Connectez-vous ici</Link></h5>
+        <h5>
+          Vous avez déjà un compte ? <Link to="/login">Connectez-vous ici</Link>
+        </h5>
       </div>
     </section>
   );
