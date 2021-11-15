@@ -43,22 +43,22 @@ export default function Login() {
 
   return (
     <section id="login">
-      <div class="form__container">
-        <div class="header">
+      <div className="form__container">
+        <div className="header">
           <h2>Se connecter</h2>
         </div>
-        <form class="form">
-          <div class="form-control">
-            <label for="email">E-mail *</label>
-            <input type="email" id="email" name="email" placeholder="Votre adresse e-mail" required />
+        <div className="form">
+          <div className="form-control">
+            <label htmlFor="email">E-mail *</label>
+            <input type="email" id="email" name="email" placeholder="Votre adresse e-mail" onChange={(e) => setEmailReg(e.target.value)} required />
           </div>
-          <div class="form-control">
-            <label for="password">Mot de passe *</label>
-            <input type="password" id="password" name="password" placeholder="Votre mot de passe" required />
+          <div className="form-control">
+            <label htmlFor="password">Mot de passe *</label>
+            <input type="password" id="password" name="password" placeholder="Votre mot de passe" onChange={(e) => setPasswordReg(e.target.value)} required />
           </div>
-          <button class="auth__btn">Se connecter</button>
-          <div class="form__error"></div>
-        </form>
+          <button className="auth__btn" onClick={login}>Se connecter</button>
+          <div className="form__error"></div>
+        </div>
       </div>
     </section>
   );

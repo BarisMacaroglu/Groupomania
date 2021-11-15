@@ -50,14 +50,14 @@ export default function App2() {
       const userId = localStorage.getItem("userId");
 
       navLink = <>
-              <Nav className="">
+              <Nav>
                   <Link to="/posts" className="nav-link">Tous les posts</Link>
                   <Link to="/users" className="nav-link">Tous les utilisateurs</Link>
                   <Link to={"/users/" + userId } className="nav-link">Mon compte</Link>
               </Nav>
             </>
   } else {
-      navLink = <Nav className="">
+      navLink = <Nav>
               <Link to="/signup" className="nav-link">S'inscrire</Link>
               <Link to="/login" className="nav-link">Se connecter</Link>
           </Nav>
