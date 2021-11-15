@@ -50,14 +50,14 @@ export default function App2() {
       const userId = localStorage.getItem("userId");
 
       navLink = <>
-              <Nav className="mr-auto">
+              <Nav className="">
                   <Link to="/posts" className="nav-link">Tous les posts</Link>
                   <Link to="/users" className="nav-link">Tous les utilisateurs</Link>
                   <Link to={"/users/" + userId } className="nav-link">Mon compte</Link>
               </Nav>
             </>
   } else {
-      navLink = <Nav className="mr-auto">
+      navLink = <Nav className="">
               <Link to="/signup" className="nav-link">S'inscrire</Link>
               <Link to="/login" className="nav-link">Se connecter</Link>
           </Nav>
@@ -69,7 +69,7 @@ export default function App2() {
     <React.Fragment>
       <AuthApi.Provider value={{ auth, setAuth}}>
         <BrowserRouter>
-          <Navbar sticky="top" bg="" variant="">
+          <Navbar sticky="top" variant="white" className="navbar">
               <Link to="/" className="logo-link"> <img className="logo-img" src={logo} alt="logo groupomania"/> </Link>
               {navLink}
           </Navbar>
