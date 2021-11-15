@@ -5,7 +5,7 @@ import logo from "../logos/icon-above-font.png"
 function Home() {
     return (
         <div className="container home__page">
-            <img className="logo-img" src={logo} alt="Groupomania Logo"></img>
+            <img className="auth__logo" src={logo} alt="Groupomania Logo"></img>
             <Login></Login>
         </div>
     )
