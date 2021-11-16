@@ -13,6 +13,7 @@ function Profile() {
 
   let { id } = useParams();
   const [oneUserObject, setOneUserObject] = useState({});
+  const [newDescription, setNewDescription] = useState("");
   // const { auth, setAuth } = useContext(AuthApi);
   const Auth = useContext(AuthApi);
   console.log(Auth.auth);
@@ -28,6 +29,16 @@ function Profile() {
       })
       .catch((error) => console.log(error));
   }, [id]);
+
+  const changeDescription = () => {
+    Axios.put(`http://localhost:3001/users/${id}/description`, {
+      description: newDescription,
+    }, headers)
+    .then((response) => {
+      console.log(response);
+      history.push(`/users/${id}`);
+    }).catch((error) => console.log(error));
+  }
 
   const logout = () => {
     Axios.get("http://localhost:3001/logout", headers)
@@ -72,13 +83,18 @@ function Profile() {
         <div>
           <h6>Description :</h6>
           <p>{oneUserObject.description}</p>
-          {Auth.auth.userId === oneUserObject.userId ? <button>Changer description</button> : <></> }
+          {Auth.auth.userId === oneUserObject.userId ? 
+          <div>
+            <input type="text" placeholder="Modifier votre description ici..." autoComplete="off" onChange={(e) => setNewDescription(e.target.value)}></input>
+            <button onClick={changeDescription}>Changer description</button>
+          </div> : <></> }
         </div>
       </div>
 
       {Auth.auth.isAdmin === 1 && Auth.auth.userId !== oneUserObject.userId ?
       <div>
         <button className="auth__btn">Bloquer utilisateur</button>
+        <button className="auth__btn">Rendre administrateur</button>
       </div> : <></>}
 
       {Auth.auth.userId === oneUserObject.userId ? 

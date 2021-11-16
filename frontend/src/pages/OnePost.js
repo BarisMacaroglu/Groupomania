@@ -47,7 +47,7 @@ function OnePost() {
         </div>
         {onePostObject.postImage ? <img className="post_image" src={onePostObject.postImage} alt="" /> : <></> }
       </div>
-      {Auth.auth.userId === onePostObject.userId ? <button onClick={deletePost}>Supprimer</button> : <></> }
+      {Auth.auth.isAdmin === 1 || Auth.auth.userId === onePostObject.userId ? <button onClick={deletePost}>Supprimer</button> : <></> }
 
     </div>
   );

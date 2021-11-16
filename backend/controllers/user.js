@@ -176,7 +176,7 @@ exports.changeDescription = (req, res, next) => {
 
     db.query("UPDATE users SET description = ? WHERE id = ?", [description, userId], (error, results) => {
       if (error) {
-        res.status(500).json({ "error": error.sqlMessage });
+        res.status(500).json({ error });
       } else {
         res.status(201).json({ message: 'Description du profil modifiée' });
       }
