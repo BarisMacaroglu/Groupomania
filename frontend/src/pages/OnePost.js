@@ -38,14 +38,11 @@ function OnePost() {
 
   return (
     <div className="posts__container">
-      <h4>Page dédiée pour un seul post</h4>
-
+      
       <div className="post">
-        {onePostObject.userFirstName} {onePostObject.userLastName} à {onePostObject.postDate} : 
-        <div>
-          {onePostObject.postContent}
-        </div>
-        {onePostObject.postImage ? <img className="post_image" src={onePostObject.postImage} alt="" /> : <></> }
+        <h5 className="post__title">{onePostObject.userFirstName} {onePostObject.userLastName} à {onePostObject.postDate} : </h5>
+        <p className="post__text">{onePostObject.postContent}</p>
+        <img className="post_image" src={onePostObject.postImage} alt="" />
       </div>
       {Auth.auth.isAdmin === 1 || Auth.auth.userId === onePostObject.userId ? <button onClick={deletePost}>Supprimer</button> : <></> }
 

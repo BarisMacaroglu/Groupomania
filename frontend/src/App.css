@@ -36,6 +36,8 @@
     height: 120px;
   }
 }
+
+/* AUTH PAGE */
 .home__page {
   display: flex;
   flex-direction: column;
@@ -47,7 +49,6 @@
   align-self: center;
 }
 
-/* AUTH PAGE */
 .form__container  {
   display: flex;
   flex-direction: column;
@@ -99,6 +100,7 @@
   font-size: 16px;
   padding: 10px;
   margin: 20px 10px 0 10px;
+  cursor: pointer;
 }
 
 .form__error {
@@ -112,35 +114,56 @@
   text-align: center;
 }
 
+/* POSTS - New Post */
+
 .posts__container {
   display: flex;
   flex-direction: column;
-  border: 3px solid blue;
+  /* border: 3px solid blue; */
   max-width: 900px;
   margin: 12px auto;
   text-align: center;
 }
 
+.new__post__container {
+  /* border: 2px solid black; */
+  margin: 12px 0;
+  background-color: #f5bfbf;
+  border-radius: 12px;
+}
+
+.new__post__container h3 {
+  margin: 12px 0;
+}
+
 .posts__container Form {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* justify-self: center; */
-  /* justify-items: center; */
   align-items: center;
+}
+
+#post_imageurl{
+  padding: 6px;
 }
 
 #post_content {
   width: 50%;
   height: 100px;
-  border-radius: 5px;
+  border-radius: 6px;
   margin: 12px 0;
+  border: none;
+}
+
+#post_content:focus {
+  border: none;
+  outline: 2px solid rgb(243, 46, 11);
 }
 
 .btn {
   padding: 10px;
   width: 50%;
-  background-color: cornflowerblue;
+  color: white;
+  background-color: rgb(243, 88, 61);
   border-radius: 6px;
   margin: 12px 0;
 }
@@ -149,21 +172,38 @@
   display: none;
 }
 
+/* POSTS - FIL D'ACTUALITE  */
+
 .all_posts {
   border: 3px solid pink;
   margin: 12px, auto;
+  border-radius: 12px;
 }
 
-/* .all_posts  */
 .post {
-  border: 1px solid blueviolet;
   border-radius: 12px;
-  margin: 24px auto;
+  margin: 36px auto;
   padding: 12px;
   max-width: 500px;
-  background-color: burlywood;
+  background-color: #f5bfbf;
   cursor: pointer;
   text-align: left;
+}
+
+.post__title {
+  padding-bottom: 6px;
+  border-bottom: 1px solid;
+}
+
+.post__text {
+  margin: 12px 0;
+  padding: 12px 0;
+}
+
+.post_image {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 6px;
 }
 
 /* USERS */
@@ -202,7 +242,8 @@
   text-align: left;
 }
 
-.post_image {
+.profile__photo {
   width: 100%;
-  max-width: 500px;
+  /* max-width: 300px; */
+  /* margin: 0 auto; */
 }

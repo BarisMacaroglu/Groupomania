@@ -40,7 +40,7 @@ function Post() {
   };
   return (
     <div className="posts__container">
-      <div className="new_post_form_container">
+      <div className="new__post__container">
         <h3>Nouveau post</h3>
         <form onSubmit={handleSubmit}>
           <input
@@ -66,7 +66,7 @@ function Post() {
         {listOfPosts.map((value, key) => {
           return (
             <div className="post" key={key} onClick={() => { history.push(`/posts/${value.postId}`); }}>
-              <p>{value.userFirstName} {value.userLastName} à {value.postDate} : </p>
+              <h5 className="post__title">{value.userFirstName} {value.userLastName} à {value.postDate} : </h5>
               <p className="post__text">{value.postContent} </p>
               <img className="post_image" alt="" src={value.postImage} />
             </div>
