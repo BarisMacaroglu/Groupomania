@@ -14,7 +14,7 @@ function OnePost() {
   // const { auth, setAuth } = useContext(AuthApi);
   const Auth = useContext(AuthApi);
   console.log(Auth.auth); // Prints the id of the connected user
-  // When the page is refreshed, auth is null, so this OnePost page and Profile page gives error as 'auth is null' 
+  // When the page is refreshed, auth is null, so this OnePost page and Profile page gives error as 'auth is null'
 
   let history = useHistory();
 
@@ -28,32 +28,29 @@ function OnePost() {
   }, []);
 
   const deletePost = () => {
-    Axios.delete(`http://localhost:3001/posts/${id}`, headers)
-    .then((response) => {
-      console.log(response);
-      history.push("/posts");
-    })
-  }
+    Axios.delete(`http://localhost:3001/posts/${id}`, headers).then(
+      (response) => {
+        console.log(response);
+        history.push("/posts");
+      }
+    );
+  };
 
-  // return (
-  //   <AuthApi.Consumer>{({auth, setAuth}) => {
-      return (
-        <div className="posts__container">
-          <h4>Page dédiée pour un seul post</h4>
+  return (
+    <div className="posts__container">
+      <h4>Page dédiée pour un seul post</h4>
 
-          <div className="post">
-            post id : {onePostObject.id}, <br />
-            <img className="post_image" src={onePostObject.image_url} alt=""/> <br />
-            publication_date : {onePostObject.publication_date} <br />
-            content : {onePostObject.content} <br />
-          </div>
-
-          <button onClick={() => deletePost()} >Supprimer</button>
-
+      <div className="post">
+        {onePostObject.userFirstName} {onePostObject.userLastName} à {onePostObject.postDate} : 
+        <div>
+          {onePostObject.postContent}
         </div>
-      )
-  //   }}</AuthApi.Consumer>
-  // );
+        {onePostObject.postImage ? <img className="post_image" src={onePostObject.postImage} alt="" /> : <></> }
+      </div>
+      {Auth.auth.userId === onePostObject.userId ? <button onClick={deletePost}>Supprimer</button> : <></> }
+
+    </div>
+  );
 }
 
 export default OnePost;

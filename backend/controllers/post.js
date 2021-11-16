@@ -27,7 +27,7 @@ FROM Posts INNER JOIN Users ON Posts.user_id = Users.id ORDER BY postDate DESC"
 const firefoxtan = "Posts INNER JOIN Users ON Posts.user_id = Users.id ORDER BY postDate DESC"
 
 const primarySql = "SELECT * FROM posts ORDER BY publication_date DESC"
-const secondarySql = "SELECT Posts.id AS postId, Posts.publication_date AS postDate, Posts.image_url AS postImage, Posts.content as postContent, Users.id AS userId, Users.first_name AS userName, Users.image_url AS userPicture FROM Posts INNER JOIN Users ON Posts.user_id = Users.id ORDER BY postDate DESC"
+const secondarySql = "SELECT Posts.id AS postId, Posts.publication_date AS postDate, Posts.image_url AS postImage, Posts.content as postContent, Users.id AS userId, Users.first_name AS userFirstName, Users.last_name AS userLastName, Users.image_url AS userPicture FROM Posts INNER JOIN Users ON Posts.user_id = Users.id ORDER BY postDate DESC"
 
 exports.getAllPosts = (req, res, next) => {
 
@@ -41,8 +41,9 @@ exports.getAllPosts = (req, res, next) => {
 }
 
 exports.getOnePost = (req, res, next) => {
+  const sqlForOnePost = "SELECT Posts.id AS postId, Posts.publication_date AS postDate, Posts.image_url AS postImage, Posts.content as postContent, Users.id AS userId, Users.first_name AS userFirstName, Users.last_name AS userLastName, Users.image_url AS userPicture FROM Posts INNER JOIN Users ON Posts.user_id = Users.id WHERE Posts.id = ? ORDER BY postDate DESC"
   const id = req.params.id;
-  db.query("SELECT * FROM posts WHERE id = ?", [id], (error, results) => {
+  db.query(sqlForOnePost, [id], (error, results) => {
     if(error) {
       res.status(500).json({ "error": error.sqlMessage });
     } else {

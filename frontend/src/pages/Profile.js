@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import Axios from "axios";
-import { useHistory } from "react-router-dom";
 import AuthApi from "../AuthApi";
+import picDefault from "../logos/anonyme.webp";
 
 function Profile() {
   const headers = {
@@ -20,7 +20,6 @@ function Profile() {
   console.log(oneUserObject.userId);
   console.log(Auth.auth.userId);
 
-
   useEffect(() => {
     Axios.get(`http://localhost:3001/users/${id}`, headers)
       .then((response) => {
@@ -31,13 +30,15 @@ function Profile() {
   }, [id]);
 
   const logout = () => {
-    console.log("Log out button clicked");
     Axios.get("http://localhost:3001/logout", headers)
       .then((response) => {
         console.log(response);
         localStorage.clear();
         history.push("/");
-        Auth.setAuth(null);
+        Auth.setAuth({
+          userId: 0,
+          isAdmin: 0,
+        });
       })
       .catch((error) => console.log(error));
   };
@@ -53,50 +54,52 @@ function Profile() {
       .catch((error) => console.log(error));
   };
 
-  const deleteAccount = () => {
-    console.log("If'li yapi sonrasi delete acc'a basildi");
-  }
+  return (
+    <div className="profile__container">
+      {Auth.auth.userId === oneUserObject.userId ? <h4>Bienvenu {oneUserObject.firstName} !</h4> : <h4>Page profile de {oneUserObject.firstName} {oneUserObject.lastName} </h4> }
 
-  // return (
-  //   <AuthApi.Consumer>
-  //     {({ auth, setAuth }) => {
-        return (
-          <div className="profile__container">
-            <h4>Page profile</h4>
-            <div className="profile">
-              Photo de profile : <img src={oneUserObject.imageUrl} alt="" />{" "}
-              <br />
-              Prénom : {oneUserObject.firstName} <br />
-              Nom : {oneUserObject.lastName} <br />
-              Description : {oneUserObject.description} <br />
-              Adresse e-mail : {oneUserObject.email} <br />
+      {Auth.auth.isAdmin === 1 && Auth.auth.userId === oneUserObject.userId ?
+      <p>Compte Administrateur</p> : <></>}
+
+      <div className="profile">
+        <div>
+          {oneUserObject.imageUrl ? <img className="profile__photo" src={oneUserObject.imageUrl} alt="" /> : <img className="profile__photo" src={picDefault} alt="" /> }
+          {Auth.auth.userId === oneUserObject.userId ? <button>Changer l'image</button> : <></> }
+        </div>
+        <div>
+          {oneUserObject.firstName} {oneUserObject.lastName}
+        </div>
+        <div>
+          <h6>Description :</h6>
+          <p>{oneUserObject.description}</p>
+          {Auth.auth.userId === oneUserObject.userId ? <button>Changer description</button> : <></> }
+        </div>
+      </div>
+
+      {Auth.auth.isAdmin === 1 && Auth.auth.userId !== oneUserObject.userId ?
+      <div>
+        <button className="auth__btn">Bloquer utilisateur</button>
+      </div> : <></>}
+
+      {Auth.auth.userId === oneUserObject.userId ? 
+        <div className="account">
+          <button className="auth__btn" onClick={logout}>Logout</button>
+          <button className="auth__btn">Mon compte</button>
+          <div className="account__settings">
+            <div className="form-control">
+              <label htmlFor="password">Ancien mot de passe *</label>
+              <input type="password" id="password" name="password" placeholder="Votre mot de passe actuel" required />
             </div>
-             {Auth.auth.userId === oneUserObject.userId && (
-              <div className="account__settings">
-                <div>
-                  <label>Ancien MDP</label>
-                  <input type="password"></input>
-                  <label>Nouveau MDP</label>
-                  <input type="password"></input>
-                  <button>Changer le MDP</button> <br /> <br />
-                  <button onClick={() => logout()}>
-                    Logout
-                  </button> <br /> <br />
-                </div>
-                <div>
-                  {/* <button onClick={confirmDelete}>Supprimer le compte</button> */}
-                  <button onClick={() => { deleteAccount(); }}>{" "}Delete Account</button>
-                </div>
-              </div>
-            )}
-            <div className="footer">
-              {oneUserObject.lastName}
+            <div className="form-control">
+              <label htmlFor="password">Nouveau mot de passe *</label>
+              <input type="password" id="password" name="password" placeholder="Votre nouveau mot de passe" required />
             </div>
+            <button className="auth__btn">Mettre à jour le mot de passe</button>
+            <button className="auth__btn" onClick={confirmDelete}>Supprimer le compte</button>
           </div>
-        );
-  //     }}
-  //   </AuthApi.Consumer>
-  // );
+        </div> : <></> }
+    </div>
+  );
 }
 
 export default Profile;
