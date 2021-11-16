@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect} from "react";
 import { BrowserRouter, Link } from "react-router-dom";
 import AuthApi from "./AuthApi";
 import Routes from "./Routes";
@@ -24,8 +24,12 @@ export default function App2() {
   //   console.log(auth);
   // }, [auth]);
 
-  const [auth, setAuth] = useState(null);
+  // const [auth, setAuth] = useState(null);
   // const { auth, setAuth } = useContext(AuthApi); // AuthApi dosyasina yazmis oldugumuz false'i donduruyor
+  const [auth, setAuth] = useState({
+    userId: 0,
+    isAdmin: 0,
+  });
 
   const readLs = () => {
     const token = localStorage.getItem("token");
@@ -45,14 +49,14 @@ export default function App2() {
   }, []);
 
   let navLink;
-  if (auth) {
+  if (auth.userId !== 0) {
 
       const userId = localStorage.getItem("userId");
 
       navLink = <>
               <Nav>
-                  <Link to="/posts" className="nav-link">Tous les posts</Link>
-                  <Link to="/users" className="nav-link">Tous les utilisateurs</Link>
+                  <Link to="/posts" className="nav-link">Posts</Link>
+                  <Link to="/users" className="nav-link">Utilisateurs</Link>
                   <Link to={"/users/" + userId } className="nav-link">Mon compte</Link>
               </Nav>
             </>
