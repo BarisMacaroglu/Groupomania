@@ -13,8 +13,12 @@ function Profile() {
 
   let { id } = useParams();
   const [oneUserObject, setOneUserObject] = useState({});
-  const { auth } = useContext(AuthApi);
-  console.log(auth);
+  // const { auth, setAuth } = useContext(AuthApi);
+  const Auth = useContext(AuthApi);
+  console.log(Auth.auth);
+
+  console.log(oneUserObject.userId);
+  console.log(Auth.auth.userId);
 
 
   useEffect(() => {
@@ -26,14 +30,14 @@ function Profile() {
       .catch((error) => console.log(error));
   }, [id]);
 
-  const logout = (setAuth) => {
+  const logout = () => {
     console.log("Log out button clicked");
     Axios.get("http://localhost:3001/logout", headers)
       .then((response) => {
         console.log(response);
         localStorage.clear();
-        setAuth(null);
         history.push("/");
+        Auth.setAuth(null);
       })
       .catch((error) => console.log(error));
   };
@@ -50,54 +54,49 @@ function Profile() {
   };
 
   const deleteAccount = () => {
-
+    console.log("If'li yapi sonrasi delete acc'a basildi");
   }
 
-  return (
-    <AuthApi.Consumer>
-      {({ auth, setAuth }) => {
+  // return (
+  //   <AuthApi.Consumer>
+  //     {({ auth, setAuth }) => {
         return (
           <div className="profile__container">
             <h4>Page profile</h4>
             <div className="profile">
               Photo de profile : <img src={oneUserObject.imageUrl} alt="" />{" "}
               <br />
-              <button>Changer la photo de profile</button> <br />
               Prénom : {oneUserObject.firstName} <br />
               Nom : {oneUserObject.lastName} <br />
               Description : {oneUserObject.description} <br />
-              <button>Changer la description</button> <br />
               Adresse e-mail : {oneUserObject.email} <br />
-              Admin status : {oneUserObject.isAdmin}
             </div>
-            <div className="account__settings">
-              <div>
-                <label>Ancien MDP</label>
-                <input type="password"></input>
-                <label>Nouveau MDP</label>
-                <input type="password"></input>
-                <button>Changer le MDP</button> <br /> <br />
-                <button onClick={() => logout(setAuth)}>
-                  Logout
-                </button> <br /> <br />
+             {Auth.auth.userId === oneUserObject.userId && (
+              <div className="account__settings">
+                <div>
+                  <label>Ancien MDP</label>
+                  <input type="password"></input>
+                  <label>Nouveau MDP</label>
+                  <input type="password"></input>
+                  <button>Changer le MDP</button> <br /> <br />
+                  <button onClick={() => logout()}>
+                    Logout
+                  </button> <br /> <br />
+                </div>
+                <div>
+                  {/* <button onClick={confirmDelete}>Supprimer le compte</button> */}
+                  <button onClick={() => { deleteAccount(); }}>{" "}Delete Account</button>
+                </div>
               </div>
-              <div>
-                <button onClick={confirmDelete}>Supprimer le compte</button>
-              </div>
-            </div>
+            )}
             <div className="footer">
               {oneUserObject.lastName}
-              {auth.userId === oneUserObject.userId && (
-                <button onClick={() => {
-                  deleteAccount(oneUserObject.userId);
-                }}>{" "}Sil le compte</button>
-              )}
             </div>
           </div>
         );
-      }}
-    </AuthApi.Consumer>
-  );
+  //     }}
+  //   </AuthApi.Consumer>
+  // );
 }
 
 export default Profile;

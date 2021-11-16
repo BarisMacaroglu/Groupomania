@@ -69,12 +69,12 @@ function Post() {
               className="post"
               key={key}
               onClick={() => {
-                history.push(`/posts/${value.id}`);
+                history.push(`/posts/${value.postId}`);
               }}
             >
-              <p>User id : {value.user_id} donc user name: ??? </p>
-              <p className="post__text">User a dit : {value.content} </p>
-              <img className="post_image" alt="" src={value.image_url} />
+              <p>User id : {value.userId} donc user name: {value.userName} </p>
+              <p className="post__text">User a dit : {value.postContent} </p>
+              <img className="post_image" alt="" src={value.postImage} />
             </div>
           );
         })}

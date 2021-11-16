@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Axios from "axios";
 import AuthApi from "../AuthApi";
@@ -11,6 +11,11 @@ function OnePost() {
   let { id } = useParams();
   const [onePostObject, setOnePostObject] = useState({});
 
+  // const { auth, setAuth } = useContext(AuthApi);
+  const Auth = useContext(AuthApi);
+  console.log(Auth.auth); // Prints the id of the connected user
+  // When the page is refreshed, auth is null, so this OnePost page and Profile page gives error as 'auth is null' 
+
   let history = useHistory();
 
   useEffect(() => {
@@ -22,7 +27,7 @@ function OnePost() {
       .catch((error) => console.log(error));
   }, []);
 
-  const deletePost = (setAuth) => {
+  const deletePost = () => {
     Axios.delete(`http://localhost:3001/posts/${id}`, headers)
     .then((response) => {
       console.log(response);
@@ -30,8 +35,8 @@ function OnePost() {
     })
   }
 
-  return (
-    <AuthApi.Consumer>{({auth, setAuth}) => {
+  // return (
+  //   <AuthApi.Consumer>{({auth, setAuth}) => {
       return (
         <div className="posts__container">
           <h4>Page dédiée pour un seul post</h4>
@@ -43,12 +48,12 @@ function OnePost() {
             content : {onePostObject.content} <br />
           </div>
 
-          <button onClick={() => deletePost(setAuth)} >Supprimer</button>
+          <button onClick={() => deletePost()} >Supprimer</button>
 
         </div>
       )
-    }}</AuthApi.Consumer>
-  );
+  //   }}</AuthApi.Consumer>
+  // );
 }
 
 export default OnePost;
