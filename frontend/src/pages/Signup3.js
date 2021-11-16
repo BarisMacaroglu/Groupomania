@@ -34,15 +34,15 @@ function Signup3() {
               console.log("OKAY CONNECTED");
               setAuth({
                 userId: response.data.userId,
-                firstName: response.data.firstName,
-                lastName: response.data.lastName,
-                imageUrl: response.data.imageUrl,
                 isAdmin: response.data.isAdmin,
               });
               history.push("/posts");
             } else {
               alert(response.data.error);
-              setAuth(null);
+              setAuth({
+                userId: 0,
+                isAdmin: 0,
+              });
             }
           })
           .catch((error) => console.log(error));
