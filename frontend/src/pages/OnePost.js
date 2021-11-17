@@ -13,8 +13,7 @@ function OnePost() {
 
   // const { auth, setAuth } = useContext(AuthApi);
   const Auth = useContext(AuthApi);
-  console.log(Auth.auth); // Prints the id of the connected user
-  // When the page is refreshed, auth is null, so this OnePost page and Profile page gives error as 'auth is null'
+  console.log(Auth.auth);
 
   let history = useHistory();
 

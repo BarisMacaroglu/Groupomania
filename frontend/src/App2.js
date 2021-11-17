@@ -9,23 +9,6 @@ import logo from "./logos/icon-left-font-monochrome-white.svg"
 
 export default function App2() {
 
-  // const [auth, setAuth] = useState(null);
-
-  // const readLs = () => {
-  //   const token = localStorage.getItem("token");
-  //   const userId = localStorage.getItem("userId");
-  //   if(token && userId) {
-  //     setAuth(true);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   readLs();
-  //   console.log(auth);
-  // }, [auth]);
-
-  // const [auth, setAuth] = useState(null);
-  // const { auth, setAuth } = useContext(AuthApi); // AuthApi dosyasina yazmis oldugumuz false'i donduruyor
   const [auth, setAuth] = useState({
     userId: 0,
     isAdmin: 0,

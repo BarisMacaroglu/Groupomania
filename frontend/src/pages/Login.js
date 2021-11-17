@@ -62,39 +62,4 @@ export default function Login() {
       </div>
     </section>
   );
-
-  // return (
-  //   <AuthApi.Consumer>
-  //     {({ auth, setAuth }) => {
-  // return (
-  // <div className="login__container">
-  //   <h3 className="login__title">Se Connecter</h3>
-  //   <div>
-  //     <input
-  //       type="email"
-  //       placeholder="Adresse mail"
-  //       onChange={(e) => {
-  //         setEmailReg(e.target.value);
-  //       }}
-  //     ></input>
-  //     <input
-  //       type="password"
-  //       placeholder="Mot de passe"
-  //       onChange={(e) => {
-  //         setPasswordReg(e.target.value);
-  //       }}
-  //     ></input>
-  //     {/* <button onClick={() => login(setAuth)}>Log in</button> */}
-  //     <button onClick={login}>Log innnnn</button>
-  //     <h3>{loginStatus}</h3>
-  //     <br/>
-  //     <br/>
-  //     <div>Vous n'avez pas de compte ? <Link to="/signup">Inscrivez-vous ici</Link> </div>
-  //     <br/>
-  //     <hr />
-  //   </div>
-  // </div>);
-  //     }}
-  //   </AuthApi.Consumer>
-  // );
 }
