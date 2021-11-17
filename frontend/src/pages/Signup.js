@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import Axios from "axios";
 import AuthApi from "../AuthApi";
 
-function Signup3() {
+function Signup() {
   const [firstNameReg, setFirstNameReg] = useState("");
   const [lastNameReg, setLastNameReg] = useState("");
   const [emailReg, setEmailReg] = useState("");
@@ -121,4 +121,4 @@ function Signup3() {
   );
 }
 
-export default Signup3;
+export default Signup;
