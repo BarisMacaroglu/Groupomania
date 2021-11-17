@@ -22,14 +22,8 @@ exports.newPost = (req, res, next) => {
     });
 }
 
-const sqlforUserIdOnPosts = "SELECT Posts.id AS postId, Posts.publication_date AS postDate, Posts.imageurl AS postImage, Posts.content as postContent, Users.id AS userId, Users.name AS userName, Users.pictureurl AS userPicture\
-FROM Posts INNER JOIN Users ON Posts.user_id = Users.id ORDER BY postDate DESC"
-const firefoxtan = "Posts INNER JOIN Users ON Posts.user_id = Users.id ORDER BY postDate DESC"
-
-const primarySql = "SELECT * FROM posts ORDER BY publication_date DESC"
-const secondarySql = "SELECT Posts.id AS postId, Posts.publication_date AS postDate, Posts.image_url AS postImage, Posts.content as postContent, Users.id AS userId, Users.first_name AS userFirstName, Users.last_name AS userLastName, Users.image_url AS userPicture FROM Posts INNER JOIN Users ON Posts.user_id = Users.id ORDER BY postDate DESC"
-
 exports.getAllPosts = (req, res, next) => {
+  const secondarySql = "SELECT Posts.id AS postId, Posts.publication_date AS postDate, Posts.image_url AS postImage, Posts.content as postContent, Users.id AS userId, Users.first_name AS userFirstName, Users.last_name AS userLastName, Users.image_url AS userPicture FROM Posts INNER JOIN Users ON Posts.user_id = Users.id ORDER BY postDate DESC"
 
   db.query(secondarySql, (error, results) => {
     if(error) {
