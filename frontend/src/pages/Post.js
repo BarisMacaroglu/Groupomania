@@ -68,7 +68,7 @@ function Post() {
             <div className="post" key={key} onClick={() => { history.push(`/posts/${value.postId}`); }}>
               <h5 className="post__title">{value.userFirstName} {value.userLastName} à {value.postDate} : </h5>
               <p className="post__text">{value.postContent} </p>
-              <img className="post_image" alt="" src={value.postImage} />
+              <img className="post_image" alt={"Le post de " + value.userFirstName + " " + value.userLastName} src={value.postImage} />
             </div>
           );
         })}

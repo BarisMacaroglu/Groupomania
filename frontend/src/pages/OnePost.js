@@ -42,9 +42,9 @@ function OnePost() {
       <div className="post">
         <h5 className="post__title">{onePostObject.userFirstName} {onePostObject.userLastName} à {onePostObject.postDate} : </h5>
         <p className="post__text">{onePostObject.postContent}</p>
-        <img className="post_image" src={onePostObject.postImage} alt="" />
+        <img className="post_image" src={onePostObject.postImage} alt={"Le post de " + onePostObject.userFirstName + " " + onePostObject.userLastName} />
       </div>
-      {Auth.auth.isAdmin === 1 || Auth.auth.userId === onePostObject.userId ? <button onClick={deletePost}>Supprimer</button> : <></> }
+      {Auth.auth.isAdmin === 1 || Auth.auth.userId === onePostObject.userId ? <button className="auth__btn" onClick={deletePost}>Supprimer</button> : <></> }
 
     </div>
   );

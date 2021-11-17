@@ -54,6 +54,15 @@ function Profile() {
       .catch((error) => console.log(error));
   };
 
+  const toggleSettings = () => {
+    let accountSettings = document.querySelector(".account__settings");
+    if(accountSettings.style.display === "none") {
+      accountSettings.style.display = "block";
+    } else {
+      accountSettings.style.display = "none";
+    }
+  }
+
   const confirmDelete = () => {
     // window.alert("Etes-vous sure de supprimer votre compte ?");
     Axios.delete(`http://localhost:3001/users/${id}`, headers)
@@ -67,40 +76,44 @@ function Profile() {
 
   return (
     <div className="profile__container">
-      {Auth.auth.userId === oneUserObject.userId ? <h4>Bienvenu {oneUserObject.firstName} !</h4> : <h4>Page profile de {oneUserObject.firstName} {oneUserObject.lastName} </h4> }
+      {Auth.auth.userId === oneUserObject.userId ? <h4 className="profile_title">Bienvenu {oneUserObject.firstName} !</h4> : <h4 className="profile_title">Page profile de {oneUserObject.firstName} {oneUserObject.lastName} </h4> }
 
       {Auth.auth.isAdmin === 1 && Auth.auth.userId === oneUserObject.userId ?
-      <p>Compte Administrateur</p> : <></>}
+      <p className="text-center">Compte Administrateur</p> : <></>}
 
       <div className="profile">
         <div>
-          {oneUserObject.imageUrl ? <img className="profile__photo" src={oneUserObject.imageUrl} alt="" /> : <img className="profile__photo" src={picDefault} alt="" /> }
-          {Auth.auth.userId === oneUserObject.userId ? <button>Changer l'image</button> : <></> }
+          {oneUserObject.imageUrl ? <img className="profile__photo" src={oneUserObject.imageUrl} alt={"Photo de profile de " + oneUserObject.firstName + " " + oneUserObject.lastName} /> : <img className="profile__photo" src={picDefault} alt="Par default" /> }
+          {Auth.auth.userId === oneUserObject.userId ?
+          <div className="profile__modify">
+            <input type="file" name="profile__picture" accept=".jpeg,.jpg,.gif"></input>
+            <button className="btn__modify">Changer l'image</button>
+          </div> : <></> }
         </div>
-        <div>
+        <div className="identity-container profile-center">
           {oneUserObject.firstName} {oneUserObject.lastName}
         </div>
         <div>
           <h6>Description :</h6>
-          <p>{oneUserObject.description}</p>
+          <p className="description_text">{oneUserObject.description}</p>
           {Auth.auth.userId === oneUserObject.userId ? 
-          <div>
-            <input type="text" placeholder="Modifier votre description ici..." autoComplete="off" onChange={(e) => setNewDescription(e.target.value)}></input>
-            <button onClick={changeDescription}>Changer description</button>
+          <div className="profile__modify">
+            <input id="post_content" type="text" placeholder="Modifier votre description ici..." autoComplete="off" onChange={(e) => setNewDescription(e.target.value)}></input>
+            <button className="btn__modify" onClick={changeDescription}>Changer description</button>
           </div> : <></> }
         </div>
       </div>
 
       {Auth.auth.isAdmin === 1 && Auth.auth.userId !== oneUserObject.userId ?
-      <div>
+      <div className="admin-settings profile">
         <button className="auth__btn">Bloquer utilisateur</button>
         <button className="auth__btn">Rendre administrateur</button>
       </div> : <></>}
 
       {Auth.auth.userId === oneUserObject.userId ? 
-        <div className="account">
+        <div className="account profile">
           <button className="auth__btn" onClick={logout}>Logout</button>
-          <button className="auth__btn">Mon compte</button>
+          <button className="auth__btn" onClick={toggleSettings}>Mon compte</button>
           <div className="account__settings">
             <div className="form-control">
               <label htmlFor="password">Ancien mot de passe *</label>

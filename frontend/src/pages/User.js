@@ -27,9 +27,8 @@ function User() {
             {listOfUsers.map((value, key) => {
                 return (
                     <div className="user" key={key} onClick={() => {history.push(`/users/${value.id}`)}}>
-                        <p>First name : {value.first_name} </p>
-                        <p>Last name : {value.last_name} </p>
-                        <img alt="" src={value.image_url}/>
+                        <p>{value.first_name} {value.last_name}</p>
+                        <img className="profile__photo--small" alt={"Photo de profile de " + value.first_name + " " + value.last_name} src={value.image_url}/>
                     </div>
                 )
             })}
