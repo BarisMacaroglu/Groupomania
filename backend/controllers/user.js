@@ -117,10 +117,10 @@ exports.getCurrentUser = (req, res, next) => {
 exports.getAllUsers = (req, res, next) => {
     console.log("Entered to getAllUsers controller");
 
-    db.query("SELECT id, first_name, last_name, image_url FROM users", (err, results) => {
+    db.query("SELECT id, first_name, last_name, image_url FROM users ORDER BY first_name", (err, results) => {
         if(err) {
             console.log(err);
-            res.status(500).json({ "error": error.sqlMessage });
+            res.status(500).json({ err });
         } else {
             res.status(200).json({ results });
         }
@@ -254,11 +254,22 @@ exports.deleteAccount = (req, res, next) => {
     // const userId = decodedToken.userId;
     console.log(userId);
 
-    db.query("DELETE FROM users WHERE id = ?", [userId], (error, results) => {
+    db.query("SELECT COUNT(*) FROM users WHERE is_admin = 1", (error, result) => {
       if (error) {
         res.status(500).json({ "error": error.sqlMessage });
       } else {
-        res.status(201).json({ message: 'Utilisateur supprimé' });
+        if(result === 1) {
+          res.status(422).json({ error: "Vous ne pouvez pas supprimer votre compte, car vous êtes le seul admin" });
+        } else if (result > 1) {
+          db.query("DELETE FROM users WHERE id = ?", [userId], (error, results) => {
+            if (error) {
+              res.status(500).json({ "error": error.sqlMessage });
+            } else {
+              res.status(201).json({ message: 'Utilisateur supprimé' });
+            }
+          });
+        }
       }
     });
+
 }
