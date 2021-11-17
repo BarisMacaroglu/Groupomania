@@ -19,7 +19,7 @@ exports.signup = (req, res, next) => {
 // lors du login utilisateur
 const loginSchema = Joi.object({
   email: Joi.string().trim().email().required(),
-  password: Joi.string().trim().min(8).required()
+  password: Joi.string().trim().min(4).required()
 });
 exports.login = (req, res, next) => {
   const {error, value} = loginSchema.validate(req.body);

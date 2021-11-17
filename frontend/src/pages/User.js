@@ -28,7 +28,7 @@ function User() {
                 return (
                     <div className="user" key={key} onClick={() => {history.push(`/users/${value.id}`)}}>
                         <p>{value.first_name} {value.last_name}</p>
-                        <img className="profile__photo--small" alt={"Photo de profile de " + value.first_name + " " + value.last_name} src={value.image_url}/>
+                        {value.image_url ? <img className="profile__photo--small" alt={"Photo de profile de " + value.first_name + " " + value.last_name} src={value.image_url}/> : <></> }
                     </div>
                 )
             })}

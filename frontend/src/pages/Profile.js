@@ -74,6 +74,10 @@ function Profile() {
       .catch((error) => console.log(error));
   };
 
+  const blockUser = () => {
+    console.log("User got blocked !");
+  }
+
   return (
     <div className="profile__container">
       {Auth.auth.userId === oneUserObject.userId ? <h4 className="profile_title">Bienvenu {oneUserObject.firstName} !</h4> : <h4 className="profile_title">Page profile de {oneUserObject.firstName} {oneUserObject.lastName} </h4> }
@@ -106,7 +110,7 @@ function Profile() {
 
       {Auth.auth.isAdmin === 1 && Auth.auth.userId !== oneUserObject.userId ?
       <div className="admin-settings profile">
-        <button className="auth__btn">Bloquer utilisateur</button>
+        <button className="auth__btn" onClick={blockUser}>Bloquer utilisateur</button>
         <button className="auth__btn">Rendre administrateur</button>
       </div> : <></>}
 

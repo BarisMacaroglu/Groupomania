@@ -186,24 +186,26 @@
   padding: 12px;
   max-width: 600px;
   background-color: #f5bfbf;
-  cursor: pointer;
   text-align: left;
 }
 
 .post__title {
   padding-bottom: 6px;
   border-bottom: 1px solid;
+  cursor: pointer;
 }
 
 .post__text {
   margin: 12px 0;
   padding: 12px 0;
+  cursor: pointer;
 }
 
 .post_image {
   width: 100%;
   max-width: 600px;
   border-radius: 6px;
+  cursor: pointer;
 }
 
 /* USERS */

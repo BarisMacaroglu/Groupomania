@@ -35,6 +35,7 @@ function Post() {
     })
       .then((response) => {
         console.log(response);
+        history.push("/posts");
       })
       .catch((error) => console.log(error));
   };
@@ -65,10 +66,10 @@ function Post() {
         <h4>Fil d'actualité</h4>
         {listOfPosts.map((value, key) => {
           return (
-            <div className="post" key={key} onClick={() => { history.push(`/posts/${value.postId}`); }}>
-              <h5 className="post__title">{value.userFirstName} {value.userLastName} à {value.postDate} : </h5>
-              <p className="post__text">{value.postContent} </p>
-              <img className="post_image" alt={"Le post de " + value.userFirstName + " " + value.userLastName} src={value.postImage} />
+            <div className="post" key={key}>
+              <h5 className="post__title" onClick={() => {history.push(`/users/${value.userId}`)}}>{value.userFirstName} {value.userLastName} à {value.postDate} : </h5>
+              <p className="post__text" onClick={() => {history.push(`/posts/${value.postId}`)}}>{value.postContent} </p>
+              {value.postImage ? <img className="post_image" onClick={() => {history.push(`/posts/${value.postId}`)}} alt={"Le post de " + value.userFirstName + " " + value.userLastName} src={value.postImage} /> : <></> }
             </div>
           );
         })}
