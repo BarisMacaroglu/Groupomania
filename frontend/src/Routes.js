@@ -3,7 +3,6 @@ import {Route, Switch } from 'react-router-dom';
 
 import AuthApi from "./AuthApi";
 import Home from './pages/Home';
-// import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
 import OnePost from "./pages/OnePost";
