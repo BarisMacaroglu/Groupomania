@@ -37,7 +37,11 @@ export default function Login() {
           });
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        let formError = document.querySelector(".form__error");
+        formError.innerHTML = error + " Réessayer s'il vous plait";
+      });
   };
 
   return (
@@ -58,7 +62,7 @@ export default function Login() {
           <button className="auth__btn" onClick={login}>Se connecter</button>
           <div className="form__error"></div>
         </div>
-        <h5>Vous n'avez pas de compte ? <Link to="/signup">Inscrivez-vous ici</Link></h5>
+        <h5>Vous n'avez pas de compte ? <Link to="/signup" className="sub_link">Inscrivez-vous ici</Link></h5>
       </div>
     </section>
   );

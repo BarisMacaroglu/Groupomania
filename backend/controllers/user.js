@@ -4,7 +4,6 @@ const database = require("../db");
 const db = database.getDB();
 
 exports.signup = (req, res, next) => {
-    console.log("Entered to signup controller");
 
     bcrypt.hash(req.body.password, 10).then(hashedPassword => {
         const firstName = req.body.firstName;
@@ -12,7 +11,6 @@ exports.signup = (req, res, next) => {
         const email = req.body.email;
         const password = hashedPassword;
         let isAdmin;
-
         // Si le nombre d'utilisateur est zéro, le premier utilisateur qui créé son compte sera admin.
         db.query("SELECT COUNT(*) AS nbOfUsers FROM users", (err, result) => {
             if(err) {
@@ -25,16 +23,19 @@ exports.signup = (req, res, next) => {
                 } else {
                     isAdmin = 0;
                 }
-
-                db.query("INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)", [firstName, lastName, email, password, isAdmin], (err, result) => {
-                    if(err) {
-                        console.log(err);
-                        res.status(500).json({ "error": error.sqlMessage });
+                db.query("INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)", [firstName, lastName, email, password, isAdmin], (error, results) => {
+                  if(error) {
+                    if (error.errno === 1062) { // ERREUR : email déjà utilisé dans la base
+                      res.status(403).json({ "error": "L'email est déjà utilisé !" });
+                    } else { // Autre erreur SQL
+                      res.status(500).json({ "error": error.sqlMessage });
                     }
-                    res.send(result);
+                  } else { // Pas d'erreur : utilisateur ajouté
+                    res.status(201).json({ message: 'Utilisateur créé' });
+                  }
                 });
             }
-        })
+        });
     }).catch(error => res.status(500).json({ error }));
 }
 
@@ -248,28 +249,17 @@ exports.changeAdmin = (req, res, next) => {
 exports.deleteAccount = (req, res, next) => {
 
   console.log("entered to ctrl delete account");
-    const userId = req.params.id;
+  const userId = req.params.id;
     // const token = req.headers.authorization.split(' ')[1];
     // const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
     // const userId = decodedToken.userId;
-    console.log(userId);
+  console.log(userId);
 
-    db.query("SELECT COUNT(*) FROM users WHERE is_admin = 1", (error, result) => {
-      if (error) {
-        res.status(500).json({ "error": error.sqlMessage });
-      } else {
-        if(result === 1) {
-          res.status(422).json({ error: "Vous ne pouvez pas supprimer votre compte, car vous êtes le seul admin" });
-        } else if (result > 1) {
-          db.query("DELETE FROM users WHERE id = ?", [userId], (error, results) => {
-            if (error) {
-              res.status(500).json({ "error": error.sqlMessage });
-            } else {
-              res.status(201).json({ message: 'Utilisateur supprimé' });
-            }
-          });
-        }
-      }
-    });
-
+  db.query("DELETE FROM users WHERE id = ?", [userId], (error, results) => {
+    if (error) {
+      res.status(500).json({ "error": error.sqlMessage });
+    } else {
+      res.status(201).json({ message: 'Utilisateur supprimé' });
+    }
+  });
 }

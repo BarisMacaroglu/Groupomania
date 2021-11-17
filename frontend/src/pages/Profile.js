@@ -98,7 +98,7 @@ function Profile() {
           {oneUserObject.firstName} {oneUserObject.lastName}
         </div>
         <div>
-          <h6>Description :</h6>
+          <h5>Description :</h5>
           <p className="description_text">{oneUserObject.description}</p>
           {Auth.auth.userId === oneUserObject.userId ? 
           <div className="profile__modify">

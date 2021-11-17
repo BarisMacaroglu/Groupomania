@@ -47,7 +47,11 @@ function Signup() {
           })
           .catch((error) => console.log(error));
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        let formError = document.querySelector(".form__error");
+        formError.innerHTML = error + " Réessayer s'il vous plait";
+      });
   };
   return (
     <section id="signup">
@@ -114,7 +118,7 @@ function Signup() {
           <div className="form__error"></div>
         </div>
         <h5>
-          Vous avez déjà un compte ? <Link to="/login">Connectez-vous ici</Link>
+          Vous avez déjà un compte ? <Link to="/login" className="sub_link">Connectez-vous ici</Link>
         </h5>
       </div>
     </section>

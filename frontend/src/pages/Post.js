@@ -44,12 +44,14 @@ function Post() {
       <div className="new__post__container">
         <h3>Nouveau post</h3>
         <form onSubmit={handleSubmit}>
+          <label htmlFor="post_imageurl">Choissisez une image à partager</label>
           <input
             type="file"
             id="post_imageurl"
             name="imageurl"
             accept=".jpeg,.jpg,.gif"
           ></input>
+          <label htmlFor="post_content">Dites quelque chose à vos collègues:</label>
           <input
             type="text"
             id="post_content"
